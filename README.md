@@ -17,5 +17,5 @@ the X below represent the number of the day you want to run.
     - mkdir build
     - cd build
     - cmake ..
-    - cmake -build .
+    - cmake --build .
     - ./AoC
