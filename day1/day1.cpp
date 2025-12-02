@@ -9,7 +9,21 @@
 #include <sstream>
 #include <vector>
 
-void part1() {
+void part1(std::vector<int>& instructions) {
+    
+    //Starting postition is 50
+    int position{50};
+
+    //Counting how many times the dial is left pointing at zero
+    int sumZeroes{0};
+
+    for (auto move : instructions){
+        position = (position + move) % 100;
+        if(position == 0) sumZeroes++;
+    }
+
+    std::cout << "Result part 1: " << sumZeroes << std::endl;
+
 }
 
 void part2() {
@@ -17,7 +31,7 @@ void part2() {
 
 void day1()
 {
-    std::string fileURL = "../day1/testInputDay1.txt";
+    std::string fileURL = "../day1/inputDay1.txt";
     std::ifstream input = readFile(fileURL);
 
     std::string line;
@@ -43,6 +57,6 @@ void day1()
     }
     input.close();
 
-    part1();
+    part1(instructions);
 
 }
