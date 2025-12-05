@@ -1,4 +1,4 @@
-# adventOfCode2025
+# Advent Of Code 2025
 
 https://adventofcode.com/2025/
 
@@ -19,4 +19,5 @@ the X below represent the number of the day you want to run.
     - cmake ..
     - cmake --build .
     - ./AoC
+
 
