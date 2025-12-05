@@ -3,11 +3,34 @@
 
 #include "day2.h"
 #include "../functions.h"
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
+
+int countOccurrences(const std::string &s, const std::string &word) {
+
+  if (word.empty())
+    return 0;
+
+  int count = 0;
+  std::size_t pos = 0;
+
+  // Count possibly overlapping occurrences of word inside s.
+  while (true) {
+
+    pos = s.find(word, pos);
+
+    if (pos == std::string::npos)
+      break;
+    ++count;
+    ++pos; // add one to allow overlapping matches
+  }
+
+  return count;
+}
 
 void part1(std::vector<std::string> &ranges) {
   long sum{};
@@ -41,7 +64,51 @@ void part1(std::vector<std::string> &ranges) {
   std::cout << "part 1: " << sum << std::endl;
 }
 
-void part2() { std::cout << "part 2: " << std::endl; }
+void part2(std::vector<std::string> &ranges) {
+  long sum{};
+
+  for (auto range : ranges) {
+
+    std::string firstStr = range.substr(0, range.find('-'));
+    std::string lastStr = range.substr(range.find('-') + 1);
+
+    long current{std::stol(firstStr)}, last{std::stol(lastStr)};
+
+    do {
+      std::string currentStr = std::to_string(current);
+
+      // iterate all substrings (only keep unique substrings in `subStrings`)
+      for (int i = 1; i <= (currentStr.size() / 2); i++) {
+
+        std::string subStr = currentStr.substr(0, i);
+
+        if (countOccurrences(currentStr, subStr) > 1) {
+
+          // Checking if the substring multiplied so that
+          // it has the same length as the current string
+          // is the same as current string.
+          int j{0}, n{0};
+          n = (currentStr.size() / i);
+          std::string comp{};
+
+          while (j < n) {
+            comp = comp + subStr;
+            j++;
+          }
+
+          if (comp == currentStr) {
+            current = std::stol(currentStr);
+            sum += current;
+            break;
+          }
+        }
+      }
+
+      current++;
+    } while (current != (last + 1));
+  }
+  std::cout << "part 2: " << sum << std::endl;
+}
 
 void day2() {
   std::string fileURL = "../day2/inputDay2.txt";
@@ -69,25 +136,8 @@ void day2() {
 
     } while (!line.empty());
 
-    /*while (!line.empty()) {
-
-      rangePair current;
-      std::string row{};
-
-      size_t length;
-      current.start = std::stoi(line, &length);
-      line = line.substr(length + 1);
-      current.finish = std::stoi(line, &length);
-      line = line.substr(length + 1);
-
-      std::cout << "start: " << current.start << "  finish: " <<
-    current.finish
-                << std::endl;
-
-      ranges.push_back(current);
-    }*/
-
     part1(ranges);
+    part2(ranges);
   }
   input.close();
 }
