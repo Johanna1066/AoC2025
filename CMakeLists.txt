@@ -11,11 +11,13 @@ add_executable(AoC main.cpp)
 
 # Add the daily directories
 #add_subdirectory(day1)
-add_subdirectory(day2)
+#add_subdirectory(day2)
+add_subdirectory(day3)
 
 # Link the daily libraries to the main executable
 #target_link_libraries(AoC PRIVATE day1)
-target_link_libraries(AoC PRIVATE day2)
+#target_link_libraries(AoC PRIVATE day2)
+target_link_libraries(AoC PRIVATE day3)
 
 # Add the functions.cpp file to the build process
 add_library(functions functions.cpp)
